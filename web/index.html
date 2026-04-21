@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Project Management</title>
+    <meta name="description" content="Mini project management system (projects & tasks)." />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="bg"></div>
+    <header class="topbar">
+      <div class="container topbar__inner">
+        <div class="brand">
+          <div class="brand__logo" aria-hidden="true">PM</div>
+          <div class="brand__text">
+            <div class="brand__name">Mini Project Management</div>
+            <div class="brand__sub">Projects • Tasks • Deadlines</div>
+          </div>
+        </div>
+        <div class="topbar__actions">
+          <button class="btn btn--ghost" id="seedBtn" type="button">Seed demo data</button>
+          <a class="btn btn--primary" href="https://www.postman.com/" target="_blank" rel="noreferrer">API testing</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container layout">
+      <section class="panel">
+        <div class="panel__header">
+          <h2 class="panel__title">Projects</h2>
+          <button class="btn btn--primary" id="newProjectBtn" type="button">New project</button>
+        </div>
+
+        <div class="panel__body">
+          <div class="toolbar">
+            <div class="field">
+              <label class="field__label" for="projectSearch">Search</label>
+              <input id="projectSearch" class="input" type="text" placeholder="Search projects…" />
+            </div>
+            <div class="pager">
+              <button class="btn btn--ghost" id="prevProjects" type="button">Prev</button>
+              <div class="pager__meta" id="projectsMeta">—</div>
+              <button class="btn btn--ghost" id="nextProjects" type="button">Next</button>
+            </div>
+          </div>
+
+          <div class="list" id="projectsList" aria-live="polite"></div>
+          <div class="empty" id="projectsEmpty" hidden>
+            No projects yet. Create one to start tracking tasks.
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__header">
+          <div>
+            <h2 class="panel__title">Tasks</h2>
+            <div class="muted" id="activeProjectLabel">Select a project to view tasks.</div>
+          </div>
+          <button class="btn btn--primary" id="newTaskBtn" type="button" disabled>New task</button>
+        </div>
+
+        <div class="panel__body">
+          <div class="toolbar">
+            <div class="field">
+              <label class="field__label" for="statusFilter">Status</label>
+              <select id="statusFilter" class="input" disabled>
+                <option value="">All</option>
+                <option value="todo">Todo</option>
+                <option value="in-progress">In progress</option>
+                <option value="done">Done</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field__label" for="orderByDue">Sort</label>
+              <select id="orderByDue" class="input" disabled>
+                <option value="asc">Due date: earliest</option>
+                <option value="desc">Due date: latest</option>
+              </select>
+            </div>
+            <div class="pager">
+              <button class="btn btn--ghost" id="prevTasks" type="button" disabled>Prev</button>
+              <div class="pager__meta" id="tasksMeta">—</div>
+              <button class="btn btn--ghost" id="nextTasks" type="button" disabled>Next</button>
+            </div>
+          </div>
+
+          <div class="grid" id="tasksGrid" aria-live="polite"></div>
+          <div class="empty" id="tasksEmpty" hidden>
+            No tasks here yet. Add one and set a due date.
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="dialog" id="projectDialog">
+      <form method="dialog" class="dialog__card" id="projectForm">
+        <div class="dialog__header">
+          <div class="dialog__title" id="projectDialogTitle">New project</div>
+          <button class="iconBtn" value="cancel" aria-label="Close" type="submit">✕</button>
+        </div>
+        <div class="dialog__body">
+          <div class="field">
+            <label class="field__label" for="projectName">Name</label>
+            <input class="input" id="projectName" name="name" placeholder="e.g. Website redesign" required />
+          </div>
+          <div class="field">
+            <label class="field__label" for="projectDescription">Description</label>
+            <textarea class="input" id="projectDescription" name="description" rows="4" placeholder="Optional…"></textarea>
+          </div>
+          <div class="error" id="projectError" hidden></div>
+        </div>
+        <div class="dialog__footer">
+          <button class="btn btn--ghost" value="cancel" type="submit">Cancel</button>
+          <button class="btn btn--primary" id="projectSubmit" value="ok" type="submit">Create</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="dialog" id="taskDialog">
+      <form method="dialog" class="dialog__card" id="taskForm">
+        <div class="dialog__header">
+          <div class="dialog__title" id="taskDialogTitle">New task</div>
+          <button class="iconBtn" value="cancel" aria-label="Close" type="submit">✕</button>
+        </div>
+        <div class="dialog__body">
+          <div class="field">
+            <label class="field__label" for="taskTitle">Title</label>
+            <input class="input" id="taskTitle" name="title" placeholder="e.g. Create wireframes" required />
+          </div>
+          <div class="field">
+            <label class="field__label" for="taskDescription">Description</label>
+            <textarea class="input" id="taskDescription" name="description" rows="4" placeholder="Optional…"></textarea>
+          </div>
+          <div class="twoCol">
+            <div class="field">
+              <label class="field__label" for="taskStatus">Status</label>
+              <select id="taskStatus" class="input" name="status">
+                <option value="todo">Todo</option>
+                <option value="in-progress">In progress</option>
+                <option value="done">Done</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field__label" for="taskPriority">Priority</label>
+              <select id="taskPriority" class="input" name="priority">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label class="field__label" for="taskDueDate">Due date</label>
+            <input id="taskDueDate" class="input" name="due_date" type="date" required />
+            <div class="hint">Stored as ISO date; used for sorting.</div>
+          </div>
+          <div class="error" id="taskError" hidden></div>
+        </div>
+        <div class="dialog__footer">
+          <button class="btn btn--ghost" value="cancel" type="submit">Cancel</button>
+          <button class="btn btn--primary" id="taskSubmit" value="ok" type="submit">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>
+
