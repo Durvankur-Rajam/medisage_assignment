@@ -1,11 +1,9 @@
-## Mini Project Management System
-
-Backend APIs + simple modern UI for managing **Projects** and **Tasks**.
+## Megisage_Assignment
 
 ### Tech stack
 
 - **Backend**: Node.js + Express
-- **Data store**: JSON file using `lowdb` (stored in `server/data/db.json`)
+- **Data store**: JSON file
 - **Frontend**: Simple HTML/CSS/JS UI (served by the backend)
 
 ### Setup & run
@@ -25,14 +23,14 @@ Then open `http://localhost:3000/`.
 - **Base**: `http://localhost:3000/api`
 - **Health**: `GET /api/health`
 
-### Database design (fields)
+### Database design (
 
 - **Projects**
   - `id`, `name`, `description`, `created_at`
 - **Tasks**
   - `id`, `project_id`, `title`, `description`, `status`, `priority`, `due_date`, `created_at`
 
-### Required APIs (implemented)
+### Required APIs 
 
 #### Project APIs
 
@@ -50,24 +48,6 @@ Then open `http://localhost:3000/`.
   - Pagination via `page` + `limit`
 - **PUT** `/tasks/{id}`
 - **DELETE** `/tasks/{id}`
-
-### Validation + error handling
-
-- Requests are validated using `zod`.
-- Errors are returned as JSON:
-
-```json
-{
-  "error": {
-    "message": "Validation error",
-    "details": { "fieldErrors": { "...": ["..."] } }
-  }
-}
-```
-
-### Postman collection
-
-Import `postman_collection.json` into Postman.
 
 ### UI demo
 
