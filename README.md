@@ -23,7 +23,7 @@ Then open `http://localhost:3000/`.
 - **Base**: `http://localhost:3000/api`
 - **Health**: `GET /api/health`
 
-### Database design (
+### Database design 
 
 - **Projects**
   - `id`, `name`, `description`, `created_at`
